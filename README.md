@@ -39,3 +39,8 @@ Note that to use any of the async options you also need to install an async test
   to ensure that tests don't interfer with each other. Valid options are `none` = indexes are not
   deleted, `async` = indexes are asyncronously deleted after each test, or `sync` = indexes are
   syncronously deleted between each test. Default = `none`.
+
+## Contributing
+
+If you are interested in contributing to this project please see our
+[contributing guide](CONTRIBUTING.md).
