@@ -2,9 +2,11 @@ from pytest_meilisearch.fixtures import (  # noqa: F401
     async_clear_indexes,
     async_client,
     async_empty_index,
+    async_index_with_documents,
     clear_indexes,
     client,
     empty_index,
+    index_with_documents,
     meilisearch_url,
 )
 
