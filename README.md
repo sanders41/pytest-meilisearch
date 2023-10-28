@@ -29,7 +29,6 @@ Note that to use any of the async options you also need to install an async test
   `http://localhost`. Default = `http://127.0.0.1` (This is the same as `http://localhost`).
 - `--meilisearch-port`: Port where the Meilisearch test server is running. For example `7700`.
   Default = `7700`.
-  group.addoption(
 - `--meilisearch-master-key"`: The master key for the Meilisearch test server. Default = `None`.
 
 #### Settings
