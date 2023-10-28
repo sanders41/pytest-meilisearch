@@ -30,7 +30,6 @@ def pytest_addoption(parser):
     group.addoption(
         "--meilisearch-master-key",
         action="store",
-        default="masterKey",
         type=str,
         help="The master key for Meilisearch.",
     )
