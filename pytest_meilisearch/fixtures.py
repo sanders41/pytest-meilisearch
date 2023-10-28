@@ -9,7 +9,10 @@ from pytest_meilisearch._internal import determine_clear_indexes, determine_clie
 
 @pytest.fixture(autouse=True)
 async def async_clear_indexes(async_client, request):
-    """Asyncronously clears all indexes."""
+    """Asyncronously clears all indexes.
+
+    This fixture runs if `meilisearch_clear_indexes` is set to `async`.
+    """
 
     yield
     if determine_clear_indexes(request.config) == "async":
@@ -22,6 +25,7 @@ async def async_clear_indexes(async_client, request):
 @pytest.fixture(scope=determine_client_scope)  # type: ignore
 async def async_client(pytestconfig, meilisearch_url):
     """Creates a meilisearch_python_sdk.AsyncClient for asyncronous testing."""
+
     async with AsyncClient(
         meilisearch_url, pytestconfig.getvalue("meilisearch_master_key")
     ) as client:
@@ -32,7 +36,8 @@ async def async_client(pytestconfig, meilisearch_url):
 async def async_empty_index(async_client):
     """Create an empty meilisearch_python_sdk.AsyncIndex.
 
-    A name for the index uid can be passed in. By default the id will be created with a uuid
+    A name for the index uid can be passed in. By default the id will be created with a uid to
+    ensure it is unique.
     """
 
     async def index_maker(uid=str(uuid4())):
@@ -43,6 +48,11 @@ async def async_empty_index(async_client):
 
 @pytest.fixture
 async def async_index_with_documents(async_client, async_empty_index):
+    """Creates a meilisearch_python_sdk.AsyncIndex that contains documents.
+
+    The documents to populate the index need to be passed in when using the fixture.
+    """
+
     async def index_maker(documents):
         index = await async_empty_index()
         response = await index.add_documents(documents)
@@ -54,7 +64,10 @@ async def async_index_with_documents(async_client, async_empty_index):
 
 @pytest.fixture(autouse=True)
 def clear_indexes(client, request):
-    """Clears all indexes."""
+    """Clears all indexes.
+
+    This fixture runs if `meilisearch_clear_indexes` is set to `sync`.
+    """
 
     yield
     if determine_clear_indexes(request.config) == "sync":
@@ -67,6 +80,7 @@ def clear_indexes(client, request):
 @pytest.fixture(scope=determine_client_scope)  # type: ignore
 def client(pytestconfig, meilisearch_url):
     """Creates a meilisearch_python_sdk.Client for testing."""
+
     yield Client(meilisearch_url, pytestconfig.getvalue("meilisearch_master_key"))
 
 
@@ -74,7 +88,8 @@ def client(pytestconfig, meilisearch_url):
 def empty_index(client):
     """Create an empty meilisearch_python_sdk.Index.
 
-    A name for the index uid can be passed in. By default the id will be created with a uuid
+    A name for the index uid can be passed in. By default the id will be created with a uid to
+    ensure it is unique.
     """
 
     def index_maker(uid=str(uuid4())):
@@ -85,6 +100,11 @@ def empty_index(client):
 
 @pytest.fixture
 def index_with_documents(client, empty_index):
+    """Creates a meilisearch_python_sdk.Index that contains documents.
+
+    The documents to populate the index need to be passed in when using the fixture.
+    """
+
     def index_maker(documents):
         index = empty_index()
         response = index.add_documents(documents)
@@ -96,6 +116,8 @@ def index_with_documents(client, empty_index):
 
 @pytest.fixture(scope="session")
 def meilisearch_url(pytestconfig):
+    """Combines the `meilisearch_host` and `meilisearch_port` into an URL."""
+
     return (
         f"{pytestconfig.getvalue('meilisearch_host')}:{pytestconfig.getvalue('meilisearch_port')}"
     )
