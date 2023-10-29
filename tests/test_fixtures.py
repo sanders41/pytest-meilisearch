@@ -17,9 +17,7 @@ async def test_async_index_with_documents(async_index_with_documents):
     index = await async_index_with_documents(docs)
     result = await index.get_documents()
     assert len(result.results) == 2
-    titles = [x["title"] for x in result.results]
-    assert docs[0]["title"] in titles
-    assert docs[1]["title"] in titles
+    assert result.results == docs
 
 
 def test_client(client):
@@ -38,6 +36,4 @@ def test_index_with_documents(index_with_documents):
     index = index_with_documents(docs)
     result = index.get_documents()
     assert len(result.results) == 2
-    titles = [x["title"] for x in result.results]
-    assert docs[0]["title"] in titles
-    assert docs[1]["title"] in titles
+    assert result.results == docs

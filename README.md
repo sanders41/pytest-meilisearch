@@ -40,6 +40,72 @@ Note that to use any of the async options you also need to install an async test
   deleted, `async` = indexes are asyncronously deleted after each test, or `sync` = indexes are
   syncronously deleted between each test. Default = `none`.
 
+## Examples
+
+- Testing that your function that adds documents to an index is successful:
+
+  - async:
+
+    ```py
+    async def test_my_func(async_client):
+        docs = [
+            {"id": 1, "title": "Ready Player One"},
+            {"id": 2, "title": "The Hitchhiker's Guide to the Galaxy"},
+        ]
+        index_name = "books"
+        await my_func(index_name, docs)
+        index = async_client.index(index_name)
+        result = await index.get_documents()
+        assert result.results == docs
+    ```
+
+  - sync:
+
+    ```py
+    def test_my_func(client):
+        docs = [
+            {"id": 1, "title": "Ready Player One"},
+            {"id": 2, "title": "The Hitchhiker's Guide to the Galaxy"},
+        ]
+        index_name = "books"
+        my_func(index_name, docs)
+        index = client.index(index_name)
+        result = index.get_documents()
+        assert result.results == docs
+    ```
+
+- Testing that your search is successful:
+
+  - async:
+
+    ```py
+    async def test_my_func(async_index_with_documents):
+        docs = [
+            {"id": 1, "title": "Ready Player One"},
+            {"id": 2, "title": "The Hitchhiker's Guide to the Galaxy"},
+        ]
+        index_name = "books"
+        index = await async_index_with_documents(docs, index_name)
+        results = await my_func("Ready Player One")
+        expected = "Ready Player One"  # Whatever you expect to be returned
+        assert result == expected
+    ```
+
+  - sync:
+
+    ```py
+    def test_my_func(index_with_documents):
+        docs = [
+            {"id": 1, "title": "Ready Player One"},
+            {"id": 2, "title": "The Hitchhiker's Guide to the Galaxy"},
+        ]
+        index_name = "books"
+        index = index_with_documents(docs, index_name)
+        results = my_func("Ready Player One")
+        expected = "Ready Player One"  # Whatever you expect to be returned
+        assert result == expected
+    ```
+
 ## Contributing
 
 If you are interested in contributing to this project please see our
