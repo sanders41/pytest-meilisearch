@@ -53,8 +53,11 @@ async def async_index_with_documents(async_client, async_empty_index):
     The documents to populate the index need to be passed in when using the fixture.
     """
 
-    async def index_maker(documents):
-        index = await async_empty_index()
+    async def index_maker(documents, index_name=None):
+        if index_name:
+            index = await async_empty_index(index_name)
+        else:
+            index = await async_empty_index()
         response = await index.add_documents(documents)
         await async_client.wait_for_task(response.task_uid)
         return index
@@ -105,8 +108,11 @@ def index_with_documents(client, empty_index):
     The documents to populate the index need to be passed in when using the fixture.
     """
 
-    def index_maker(documents):
-        index = empty_index()
+    def index_maker(documents, index_name=None):
+        if index_name:
+            index = empty_index(index_name)
+        else:
+            index = empty_index()
         response = index.add_documents(documents)
         client.wait_for_task(response.task_uid)
         return index
