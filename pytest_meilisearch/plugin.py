@@ -36,7 +36,7 @@ def pytest_addoption(parser):
     parser.addini(
         "meilisearch_client_scope",
         "Modify the scope of the async_client and client fixtures.",
-        default="session",
+        default="function",
     )
     parser.addini(
         "meilisearch_clear_indexes",
