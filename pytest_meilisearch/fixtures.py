@@ -5,6 +5,7 @@ import pytest
 from meilisearch_python_sdk import AsyncClient, Client
 
 from pytest_meilisearch._internal import determine_clear_indexes, determine_client_scope
+from pytest_meilisearch._meilisearch_server import MeilisearchServer
 
 
 @pytest.fixture(autouse=True)
@@ -120,10 +121,28 @@ def index_with_documents(client, empty_index):
     return index_maker
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope=determine_client_scope)  # type: ignore
 def meilisearch_url(pytestconfig):
     """Combines the `meilisearch_host` and `meilisearch_port` into an URL."""
 
+    return _create_meilisarch_url(pytestconfig)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def start_meilisearch(pytestconfig):
+    if pytestconfig.getvalue("start_meilisearch"):
+        server = MeilisearchServer(
+            _create_meilisarch_url(pytestconfig),
+            pytestconfig.getvalue("meilisearch_port"),
+            pytestconfig.getvalue("meilisearch_version"),
+            pytestconfig.getvalue("meilisearch_master_key"),
+        )
+        server.start()
+        yield
+        server.stop()
+
+
+def _create_meilisarch_url(pytestconfig):
     return (
         f"{pytestconfig.getvalue('meilisearch_host')}:{pytestconfig.getvalue('meilisearch_port')}"
     )
