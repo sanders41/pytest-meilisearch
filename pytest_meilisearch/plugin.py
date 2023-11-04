@@ -41,6 +41,13 @@ def pytest_addoption(parser):
         help="Start Meilisearch before running tests. Default: False.",
     )
     group.addoption(
+        "--meilisearch-start-timeout",
+        action="store",
+        default=120,
+        type=int,
+        help="The number of seconds to wait for Meilisearch to start before timing out. Default: 120.",
+    )
+    group.addoption(
         "--meilisearch-version",
         action="store",
         default="latest",
