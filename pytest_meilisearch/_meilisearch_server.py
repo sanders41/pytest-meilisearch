@@ -33,18 +33,13 @@ class MeilisearchServer:  # pragma: no cover
             command = f"{command} --master-key={self.api_key}"
 
         process = subprocess.run(shlex.split(command), capture_output=True)
-        # If there is an error check to see if it is that Meilisearch isn't found locally. If this
-        # is the reason continue without error as long and docker can find the specified meilisearch_version
-        # because it will be download automatically.
-        if (
-            process.stderr
-            and f"Unable to find image 'getmeili/meilisearch:{self.meilisearch_version}' locally"
-            not in process.stderr.decode()
-            or process.stderr
-            and f"manifest for getmeili/meilisearch:{self.meilisearch_version} not found"
-            in process.stderr.decode()
-        ):
-            pytest.fail(f"Failed to start Meilisearch: {process.stderr.decode()}")
+        if process.returncode != 0:
+            if process.stdout:
+                self._container_id = process.stdout.decode()
+                self.stop()
+            if process.stderr:
+                pytest.fail(f"Failed to start Meilisearch: {process.stderr.decode()}")
+            pytest.fail("Failed to start Meilisearch")
 
         self._container_id = process.stdout.decode()
 
