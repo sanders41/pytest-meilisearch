@@ -19,7 +19,8 @@ pip install pytest-meilisearch
 ## Usage
 
 Note that to use any of the async options you also need to install an async test helper such as
-[pytest-asyncio](https://github.com/pytest-dev/pytest-asyncio).
+[pytest-asyncio](https://github.com/pytest-dev/pytest-asyncio). In order to use
+`--start-meilisearch` [Docker](https://www.docker.com/) has to be installed.
 
 ### Configuration
 
