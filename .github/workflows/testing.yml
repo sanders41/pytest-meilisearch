@@ -46,7 +46,5 @@ jobs:
           cache: "poetry"
       - name: Install Dependencies
         run: poetry install
-      - name: MeiliSearch setup with Docker
-        run: docker run -d --rm -p 7700:7700 getmeili/meilisearch:latest meilisearch --no-analytics --master-key=masterKey
       - name: Test with pytest
         run: poetry run pytest

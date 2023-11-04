@@ -30,6 +30,10 @@ Note that to use any of the async options you also need to install an async test
 - `--meilisearch-port`: Port where the Meilisearch test server is running. For example `7700`.
   Default = `7700`.
 - `--meilisearch-master-key"`: The master key for the Meilisearch test server. Default = `None`.
+- `--start-meilisearch`: Start a Meilisearch Docker container before running the tests. For this to
+  work Docker has to be installed first. Default = `False`.
+- `--meilisearch-version`: When using `--start-meilisearch` the this flag will set the version of
+  Meilisearch to start. Default = `latest`.
 
 #### Settings
 
