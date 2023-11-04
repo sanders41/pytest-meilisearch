@@ -35,6 +35,8 @@ Note that to use any of the async options you also need to install an async test
   work Docker has to be installed first. Default = `False`.
 - `--meilisearch-version`: When using `--start-meilisearch` the this flag will set the version of
   Meilisearch to start. Default = `latest`.
+- `--meilisearch-start-timeout`: The number of seconds to wait for Meilisearch to start before
+  timing out. Default = 120.
 
 #### Settings
 

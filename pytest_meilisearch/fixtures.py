@@ -132,10 +132,11 @@ def meilisearch_url(pytestconfig):
 def start_meilisearch(pytestconfig):
     if pytestconfig.getvalue("start_meilisearch"):
         server = MeilisearchServer(
-            _create_meilisarch_url(pytestconfig),
-            pytestconfig.getvalue("meilisearch_port"),
-            pytestconfig.getvalue("meilisearch_version"),
-            pytestconfig.getvalue("meilisearch_master_key"),
+            url=_create_meilisarch_url(pytestconfig),
+            port=pytestconfig.getvalue("meilisearch_port"),
+            meilisearch_version=pytestconfig.getvalue("meilisearch_version"),
+            start_timeout=pytestconfig.getvalue("meilisearch_start_timeout"),
+            api_key=pytestconfig.getvalue("meilisearch_master_key"),
         )
         server.start()
         yield

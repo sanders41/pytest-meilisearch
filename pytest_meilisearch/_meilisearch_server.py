@@ -11,12 +11,18 @@ from meilisearch_python_sdk.errors import MeilisearchCommunicationError
 
 class MeilisearchServer:  # pragma: no cover
     def __init__(
-        self, url: str, port: int, meilisearch_version: str = "latest", api_key: str | None = None
+        self,
+        url: str,
+        port: int,
+        meilisearch_version: str = "latest",
+        start_timeout: int = 120,
+        api_key: str | None = None,
     ) -> None:
         self.url = url
         self.port = port
         self.api_key = api_key
         self.meilisearch_version = meilisearch_version
+        self.start_timeout = start_timeout
         self._container_id: str | None
 
     def start(self) -> None:
@@ -45,8 +51,10 @@ class MeilisearchServer:  # pragma: no cover
         start = time()
         while True:
             elapsed_time = time() - start
-            if elapsed_time > 120:
-                pytest.fail("Failed to start the Meilisearch server after 2 minutes")
+            if elapsed_time > self.start_timeout:
+                pytest.fail(
+                    f"Failed to start the Meilisearch server after {self.start_timeout} seconds"
+                )
             if self._is_ready():
                 break
 
