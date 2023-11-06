@@ -139,7 +139,8 @@ def start_meilisearch(pytestconfig):
             api_key=pytestconfig.getvalue("meilisearch_master_key"),
         )
         server.start()
-        yield
+    yield
+    if pytestconfig.getvalue("start_meilisearch"):
         server.stop()
 
 

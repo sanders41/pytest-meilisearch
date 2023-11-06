@@ -32,14 +32,25 @@ class MeilisearchServer:  # pragma: no cover
         if self.api_key:
             command = f"{command} --master-key={self.api_key}"
 
-        process = subprocess.run(shlex.split(command), capture_output=True, text=True)
-        if process.returncode != 0:
-            if process.stdout:
-                self._container_id = process.stdout
-                self.stop()
-            if process.stderr:
-                pytest.fail(f"Failed to start Meilisearch: {process.stderr}")
-            pytest.fail("Failed to start Meilisearch")
+        try:
+            process = subprocess.run(
+                shlex.split(command),
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=self.start_timeout,
+            )
+            if process.returncode != 0:
+                if process.stdout:
+                    self._container_id = process.stdout
+                    self.stop()
+                if process.stderr:
+                    pytest.fail(f"Failed to start Meilisearch: {process.stderr}")
+                pytest.fail("Failed to start Meilisearch")
+        except subprocess.TimeoutExpired:
+            pytest.fail(
+                f"Starting Meilisearch exceded the maximum allowed time of {self.start_timeout} seconds"
+            )
 
         self._container_id = process.stdout
 
