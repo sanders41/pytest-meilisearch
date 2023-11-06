@@ -32,16 +32,16 @@ class MeilisearchServer:  # pragma: no cover
         if self.api_key:
             command = f"{command} --master-key={self.api_key}"
 
-        process = subprocess.run(shlex.split(command), capture_output=True)
+        process = subprocess.run(shlex.split(command), capture_output=True, text=True)
         if process.returncode != 0:
             if process.stdout:
-                self._container_id = process.stdout.decode()
+                self._container_id = process.stdout
                 self.stop()
             if process.stderr:
-                pytest.fail(f"Failed to start Meilisearch: {process.stderr.decode()}")
+                pytest.fail(f"Failed to start Meilisearch: {process.stderr}")
             pytest.fail("Failed to start Meilisearch")
 
-        self._container_id = process.stdout.decode()
+        self._container_id = process.stdout
 
         start = time()
         while True:
@@ -67,4 +67,7 @@ class MeilisearchServer:  # pragma: no cover
     def stop(self) -> None:
         if self._container_id:
             command = f"docker stop {self._container_id}"
-            subprocess.run(shlex.split(command))
+            process = subprocess.run(shlex.split(command), capture_output=True, text=True)
+            if process.returncode != 0:
+                if process.stderr:
+                    print(f"Failed to start Meilisearch: {process.stderr}")  # noqa: T201
