@@ -131,14 +131,23 @@ def meilisearch_url(pytestconfig):
 @pytest.fixture(scope="session", autouse=True)
 def start_meilisearch(pytestconfig):
     if pytestconfig.getvalue("start_meilisearch"):
+        meilisearch_url = _create_meilisarch_url(pytestconfig)
         server = MeilisearchServer(
-            url=_create_meilisarch_url(pytestconfig),
+            url=meilisearch_url,
             port=pytestconfig.getvalue("meilisearch_port"),
             meilisearch_version=pytestconfig.getvalue("meilisearch_version"),
             start_timeout=pytestconfig.getvalue("meilisearch_start_timeout"),
             api_key=pytestconfig.getvalue("meilisearch_master_key"),
         )
         server.start()
+        client = Client(meilisearch_url, pytestconfig.getvalue("meilisearch_master_key"))
+        tries = 10
+        for i in range(tries):
+            health = client.health()
+            if health.status == "available":
+                break
+            if i == tries - 1:
+                pytest.fail("Unable to start the Meilisearch server")
     yield
     if pytestconfig.getvalue("start_meilisearch"):
         server.stop()
