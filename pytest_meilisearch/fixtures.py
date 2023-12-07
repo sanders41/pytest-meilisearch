@@ -3,6 +3,7 @@ from uuid import uuid4
 
 import pytest
 from meilisearch_python_sdk import AsyncClient, Client
+from meilisearch_python_sdk.errors import MeilisearchError
 
 from pytest_meilisearch._internal import determine_clear_indexes, determine_client_scope
 from pytest_meilisearch._meilisearch_server import MeilisearchServer
@@ -143,9 +144,12 @@ def start_meilisearch(pytestconfig):
         client = Client(meilisearch_url, pytestconfig.getvalue("meilisearch_master_key"))
         tries = 10
         for i in range(tries):
-            health = client.health()
-            if health.status == "available":
-                break
+            try:
+                health = client.health()
+                if health.status == "available":
+                    break
+            except MeilisearchError:
+                pass
             if i == tries - 1:
                 pytest.fail("Unable to start the Meilisearch server")
     yield
