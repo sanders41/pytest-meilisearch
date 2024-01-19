@@ -154,6 +154,8 @@ def start_meilisearch(pytestconfig):
                     pytest.fail("Unable to start the Meilisearch server")
 
             yield
+    else:
+        yield
 
 
 def _create_meilisarch_url(pytestconfig):
