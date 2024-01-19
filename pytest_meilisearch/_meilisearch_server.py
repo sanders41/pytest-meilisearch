@@ -18,7 +18,7 @@ class MeilisearchServer:  # pragma: no cover
         url: str,
         port: int,
         meilisearch_version: str = "latest",
-        start_timeout: int = 120,
+        start_timeout: int = 240,
         api_key: str | None = None,
     ) -> None:
         self.url = url
