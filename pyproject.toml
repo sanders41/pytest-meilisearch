@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-meilisearch"
-version = "0.3.5"
+version = "0.4.0"
 description = "Pytest helpers for testing projects using Meilisearch"
 authors = ["Paul Sanders <psanders1@gmail.com>"]
 license = "MIT"
