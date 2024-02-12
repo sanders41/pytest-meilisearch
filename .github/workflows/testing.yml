@@ -49,4 +49,4 @@ jobs:
       - name: Start Meilisearch latest in Docker
         run: docker run -d -p 7700:7700 getmeili/meilisearch:latest meilisearch --no-analytics --master-key=masterKey
       - name: Test with pytest
-        run: poetry run pytest --meilisearch-start-timeout 300
+        run: poetry run pytest
