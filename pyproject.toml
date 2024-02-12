@@ -48,7 +48,7 @@ module = ["tests.*"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--cov=pytest_meilisearch --cov-report term-missing --meilisearch-master-key masterKey --no-cov-on-fail --start-meilisearch"
+addopts = "--cov=pytest_meilisearch --cov-report term-missing --meilisearch-master-key masterKey --no-cov-on-fail"
 asyncio_mode = "auto"
 meilisearch_clear_indexes = "async"
 

@@ -3,10 +3,8 @@ from uuid import uuid4
 
 import pytest
 from meilisearch_python_sdk import AsyncClient, Client
-from meilisearch_python_sdk.errors import MeilisearchError
 
 from pytest_meilisearch._internal import determine_clear_indexes, determine_client_scope
-from pytest_meilisearch._meilisearch_server import MeilisearchServer
 
 
 @pytest.fixture(autouse=True)
@@ -127,35 +125,6 @@ def meilisearch_url(pytestconfig):
     """Combines the `meilisearch_host` and `meilisearch_port` into an URL."""
 
     return _create_meilisarch_url(pytestconfig)
-
-
-@pytest.fixture(scope="session", autouse=True)
-def start_meilisearch(pytestconfig):
-    if pytestconfig.getvalue("start_meilisearch"):
-        meilisearch_url = _create_meilisarch_url(pytestconfig)
-        with MeilisearchServer(
-            url=meilisearch_url,
-            port=pytestconfig.getvalue("meilisearch_port"),
-            meilisearch_version=pytestconfig.getvalue("meilisearch_version"),
-            start_timeout=pytestconfig.getvalue("meilisearch_start_timeout"),
-            api_key=pytestconfig.getvalue("meilisearch_master_key"),
-        ) as server:
-            server.start()
-            client = Client(meilisearch_url, pytestconfig.getvalue("meilisearch_master_key"))
-            tries = 10
-            for i in range(tries):
-                try:
-                    health = client.health()
-                    if health.status == "available":
-                        break
-                except MeilisearchError:
-                    pass
-                if i == tries - 1:
-                    pytest.fail("Unable to start the Meilisearch server")
-
-            yield
-    else:
-        yield
 
 
 def _create_meilisarch_url(pytestconfig):

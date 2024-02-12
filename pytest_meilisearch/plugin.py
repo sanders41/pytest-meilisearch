@@ -8,7 +8,6 @@ from pytest_meilisearch.fixtures import (  # noqa: F401
     empty_index,
     index_with_documents,
     meilisearch_url,
-    start_meilisearch,
 )
 
 
@@ -33,26 +32,6 @@ def pytest_addoption(parser):
         action="store",
         type=str,
         help="The master key for Meilisearch.",
-    )
-    group.addoption(
-        "--start-meilisearch",
-        action="store_true",
-        default=False,
-        help="Start Meilisearch before running tests. Default: False.",
-    )
-    group.addoption(
-        "--meilisearch-start-timeout",
-        action="store",
-        default=120,
-        type=int,
-        help="The number of seconds to wait for Meilisearch to start before timing out. Default: 120.",
-    )
-    group.addoption(
-        "--meilisearch-version",
-        action="store",
-        default="latest",
-        type=str,
-        help="The version of Meilisearch to use when start-meilisearch is True. Default: latest.",
     )
     parser.addini(
         "meilisearch_client_scope",
