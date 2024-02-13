@@ -18,8 +18,12 @@ async def async_clear_indexes(async_meilisearch_client, request):
     if determine_clear_indexes(request.config) == "async":
         indexes = await async_meilisearch_client.get_indexes()
         if indexes:
-            tasks = await asyncio.gather(*[async_meilisearch_client.index(x.uid).delete() for x in indexes])
-            await asyncio.gather(*[async_meilisearch_client.wait_for_task(x.task_uid) for x in tasks])
+            tasks = await asyncio.gather(
+                *[async_meilisearch_client.index(x.uid).delete() for x in indexes]
+            )
+            await asyncio.gather(
+                *[async_meilisearch_client.wait_for_task(x.task_uid) for x in tasks]
+            )
 
 
 @pytest.fixture(scope=determine_client_scope)  # type: ignore
