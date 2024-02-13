@@ -4,7 +4,7 @@ import pytest
 
 
 async def test_async_client(async_meilisearch_client):
-    result = await async_client.health()
+    result = await async_meilisearch_client.health()
     assert result.status == "available"
 
 
@@ -33,7 +33,7 @@ async def test_async_index_with_documents(index_name, async_index_with_documents
 
 
 def test_client(meilisearch_client):
-    result = client.health()
+    result = meilisearch_client.health()
     assert result.status == "available"
 
 
