@@ -33,7 +33,7 @@ Note that to use any of the async options you also need to install an async test
 
 #### Settings
 
-- `meilisearch_client_scope`: Modify the scope of the async_client and client fixtures. Valid
+- `meilisearch_client_scope`: Modify the scope of the async_meilisearch_client and meilisearch_client fixtures. Valid
   settings are `function`, `module`, `package`, or `session`. Default = `function`.
 - `meilisearch_clear_indexes`: Controls is indexes are deleted after each tests. This can be useful
   to ensure that tests don't interfer with each other. Valid options are `none` = indexes are not
@@ -47,14 +47,14 @@ Note that to use any of the async options you also need to install an async test
   - async:
 
     ```py
-    async def test_my_func(async_client):
+    async def test_my_func(async_meilisearch_client):
         docs = [
             {"id": 1, "title": "Ready Player One"},
             {"id": 2, "title": "The Hitchhiker's Guide to the Galaxy"},
         ]
         index_name = "books"
         await my_func(index_name, docs)
-        index = async_client.index(index_name)
+        index = async_meilisearch_client.index(index_name)
         result = await index.get_documents()
         assert result.results == docs
     ```
@@ -62,14 +62,14 @@ Note that to use any of the async options you also need to install an async test
   - sync:
 
     ```py
-    def test_my_func(client):
+    def test_my_func(meilisearch_client):
         docs = [
             {"id": 1, "title": "Ready Player One"},
             {"id": 2, "title": "The Hitchhiker's Guide to the Galaxy"},
         ]
         index_name = "books"
         my_func(index_name, docs)
-        index = client.index(index_name)
+        index = meilisearch_client.index(index_name)
         result = index.get_documents()
         assert result.results == docs
     ```

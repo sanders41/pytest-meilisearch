@@ -17,7 +17,7 @@ Please include:
     example:
 
         ```py
-        def test_my_function(client):
+        def test_my_function(meilisearch_client):
             ...
         ```
 

@@ -1,12 +1,12 @@
 from pytest_meilisearch.fixtures import (  # noqa: F401
     async_clear_indexes,
-    async_client,
     async_empty_index,
     async_index_with_documents,
+    async_meilisearch_client,
     clear_indexes,
-    client,
     empty_index,
     index_with_documents,
+    meilisearch_client,
     meilisearch_url,
 )
 
@@ -35,7 +35,7 @@ def pytest_addoption(parser):
     )
     parser.addini(
         "meilisearch_client_scope",
-        "Modify the scope of the async_client and client fixtures. Default: function.",
+        "Modify the scope of the async_meilisearch_client and meilisearch_client fixtures. Default: function.",
         default="function",
     )
     parser.addini(
