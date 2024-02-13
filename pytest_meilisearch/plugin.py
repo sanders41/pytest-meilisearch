@@ -1,8 +1,10 @@
 from pytest_meilisearch.fixtures import (  # noqa: F401
+    async_clear_documents,
     async_clear_indexes,
     async_empty_index,
     async_index_with_documents,
     async_meilisearch_client,
+    clear_documents,
     clear_indexes,
     empty_index,
     index_with_documents,
@@ -39,7 +41,7 @@ def pytest_addoption(parser):
         default="function",
     )
     parser.addini(
-        "meilisearch_clear_indexes",
-        "Modify the autouse setting for the async_clear_indexes and clear_indexes fixtures.",
+        "meilisearch_clear",
+        "Modify the autouse setting for the async_clear_documents, async_clear_indexes, clear_documents, and clear_indexes fixtures.",
         default="none",
     )

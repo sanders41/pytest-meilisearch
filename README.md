@@ -33,11 +33,14 @@ Note that to use any of the async options you also need to install an async test
 
 #### Settings
 
-- `meilisearch_client_scope`: Modify the scope of the async_meilisearch_client and meilisearch_client fixtures. Valid
-  settings are `function`, `module`, `package`, or `session`. Default = `function`.
-- `meilisearch_clear_indexes`: Controls is indexes are deleted after each tests. This can be useful
-  to ensure that tests don't interfer with each other. Valid options are `none` = indexes are not
-  deleted, `async` = indexes are asyncronously deleted after each test, or `sync` = indexes are
+- `meilisearch_client_scope`: Modify the scope of the async_meilisearch_client and
+  meilisearch_client fixtures. Valid settings are `function`, `module`, `package`, or `session`.
+  Default = `function`.
+- `meilisearch_clear`: Controls if either documents or indexes are deleted after each tests. This
+  can be useful to ensure that tests don't interfer with each other. Valid options are
+  `none` = documents and indexes are not deleted, `async_document` = documents are asyncronously
+  deleted after each test, `async_index` = indexes are asyncronously deleted after each test,
+  `document` = documents are syncronously deleted after each test, or `index` = indexes are
   syncronously deleted between each test. Default = `none`.
 
 ## Examples
