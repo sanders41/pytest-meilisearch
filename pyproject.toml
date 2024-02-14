@@ -56,6 +56,11 @@ meilisearch_clear_indexes = "async"
 exclude_lines = ["if __name__ == .__main__.:", "pragma: no cover"]
 
 [tool.ruff]
+line-length = 100
+target-version = "py38"
+fix = true
+
+[tool.ruff.lint]
 select = ["E", "F", "UP", "I001", "T201", "T203"]
 ignore=[
   # Recommended ignores by ruff when using formatter
@@ -75,6 +80,3 @@ ignore=[
   "ISC001",
   "ISC002",
 ]
-line-length = 100
-target-version = "py38"
-fix = true
