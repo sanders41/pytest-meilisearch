@@ -4,18 +4,38 @@ from uuid import uuid4
 import pytest
 from meilisearch_python_sdk import AsyncClient, Client
 
-from pytest_meilisearch._internal import determine_clear_indexes, determine_client_scope
+from pytest_meilisearch._internal import (
+    determine_clear,
+    determine_client_scope,
+)
+
+
+@pytest.fixture(autouse=True)
+async def async_clear_documents(async_meilisearch_client, request):
+    """Asyncronously clears all documents in an indexes.
+
+    This fixture runs if `meilisearch_clear` is set to `async_document`.
+    """
+    yield
+    if determine_clear(request.config) == "async_document":
+        indexes = await async_meilisearch_client.get_indexes()
+        if indexes:
+            tasks = await asyncio.gather(
+                *[async_meilisearch_client.index(x.uid).delete_all_documents() for x in indexes]
+            )
+            await asyncio.gather(
+                *[async_meilisearch_client.wait_for_task(x.task_uid) for x in tasks]
+            )
 
 
 @pytest.fixture(autouse=True)
 async def async_clear_indexes(async_meilisearch_client, request):
     """Asyncronously clears all indexes.
 
-    This fixture runs if `meilisearch_clear_indexes` is set to `async`.
+    This fixture runs if `meilisearch_clear` is set to `async_index`.
     """
-
     yield
-    if determine_clear_indexes(request.config) == "async":
+    if determine_clear(request.config) == "async_index":
         indexes = await async_meilisearch_client.get_indexes()
         if indexes:
             tasks = await asyncio.gather(
@@ -70,18 +90,34 @@ async def async_index_with_documents(async_meilisearch_client, async_empty_index
 
 
 @pytest.fixture(autouse=True)
-def clear_indexes(meilisearch_client, request):
-    """Clears all indexes.
+def clear_documents(meilisearch_client, request):
+    """Clears all documents.
 
-    This fixture runs if `meilisearch_clear_indexes` is set to `sync`.
+    This fixture runs if `meilisearch_clear` is set to `document`.
     """
-
     yield
-    if determine_clear_indexes(request.config) == "sync":
+    if determine_clear(request.config) == "document":
         indexes = meilisearch_client.get_indexes()
         if indexes:
             for index in indexes:
-                meilisearch_client.index(index.uid).delete()
+                task = meilisearch_client.index(index.uid).delete_all_documents()
+                meilisearch_client.wait_for_task(task.task_uid)
+
+
+@pytest.fixture(autouse=True)
+def clear_indexes(meilisearch_client, request):
+    """Clears all indexes.
+
+    This fixture runs if `meilisearch_clear` is set to `index`.
+    """
+
+    yield
+    if determine_clear(request.config) == "index":
+        indexes = meilisearch_client.get_indexes()
+        if indexes:
+            for index in indexes:
+                task = meilisearch_client.index(index.uid).delete()
+                meilisearch_client.wait_for_task(task.task_uid)
 
 
 @pytest.fixture(scope=determine_client_scope)  # type: ignore
