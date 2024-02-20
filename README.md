@@ -1,6 +1,6 @@
 # pytest-meilisearch
 
-[![Test Status](https://github.com/sanders41/pytest-meilisearch/workflows/Testing/badge.svg?branch=main&event=push)](https://github.com/sanders41/pytest-meilisearch/actions?query=workflow%3ATesting+branch%3Amain+event%3Apush)
+[![Tests Status](https://github.com/sanders41/pytest-meilisearch/actions/workflows/testing.yml/badge.svg?branch=main&event=push)](https://github.com/sanders41/pytest-meilisearch/actions?query=workflow%3ATesting+branch%3Amain+event%3Apush)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/sanders41/pytest-meilisearch/main.svg)](https://results.pre-commit.ci/latest/github/sanders41/pytest-meilisearch/main)
 [![PyPI version](https://badge.fury.io/py/pytest-meilisearch.svg)](https://badge.fury.io/py/pytest-meilisearch)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pytest-meilisearch?color=5cc141)](https://github.com/sanders41/pytest-meilisearch)
