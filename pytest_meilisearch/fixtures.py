@@ -63,8 +63,9 @@ async def async_empty_index(async_meilisearch_client):
     A name for the index uid can be passed in. By default the id will be created with a uid to
     ensure it is unique.
     """
+    uid = str(uuid4())
 
-    async def index_maker(uid=str(uuid4())):
+    async def index_maker(uid=uid):
         return await async_meilisearch_client.create_index(uid=uid)
 
     return index_maker
@@ -134,8 +135,9 @@ def empty_index(meilisearch_client):
     A name for the index uid can be passed in. By default the id will be created with a uid to
     ensure it is unique.
     """
+    uid = str(uuid4())
 
-    def index_maker(uid=str(uuid4())):
+    def index_maker(uid=uid):
         return meilisearch_client.create_index(uid=uid)
 
     return index_maker
