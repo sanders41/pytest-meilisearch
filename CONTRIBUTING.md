@@ -43,14 +43,13 @@ project) repository.
 
 ### Working with the code
 
-Note: This project uses Poetry to manage dependencies. If you do not already have Poetry installed
-you will need to install it with the instructions
-[here](https://python-poetry.org/docs/#installation)
+Note: This project uses uv to manage dependencies. If you do not already have uv installed you will
+need to install it with the instructions [here](https://docs.astral.sh/uv/getting-started/installation/)
 
 First the requirements need to be installed.
 
 ```sh
-poetry install
+uv sync --frozen
 ```
 
 ### Creating a branch
@@ -83,13 +82,13 @@ You can run linting on your code at any time with:
 
 ```sh
 # Run ruff linter
-poetry run ruff check .
+uv run ruff check .
 
 # Run ruff format
-poetry run ruff format pytest_meilisearch tests
+uv run ruff format pytest_meilisearch tests
 
 # Run mypy
-pyetry run mypy pytest_meilisearch
+uv run mypy pytest_meilisearch
 ```
 
 It is also suggested that you setup [pre-commit](https://pre-commit.com/) in order to run linting
@@ -114,7 +113,7 @@ additions/changes you make to the code have tests to go along with them.
 The test suite can be run with
 
 ```sh
-poetry run pytest
+uv run pytest
 ```
 
 Please ensure that all tests are passing before submitting a pull request.
