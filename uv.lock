@@ -533,7 +533,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "meilisearch-python-sdk", specifier = ">=3.0.0" },
+    { name = "meilisearch-python-sdk", specifier = ">=2.0.1" },
     { name = "pytest", specifier = ">=7.4.3" },
 ]
 
