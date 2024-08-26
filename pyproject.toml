@@ -22,7 +22,7 @@ classifiers=[
 
 [tool.poetry.dependencies]
 python = "^3.9"
-meilisearch-python-sdk = ">=2.0.1"
+meilisearch-python-sdk = ">=3.0.0"
 pytest = ">=7.4.3"
 
 [tool.poetry.group.dev.dependencies]
