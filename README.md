@@ -5,6 +5,8 @@
 [![PyPI version](https://badge.fury.io/py/pytest-meilisearch.svg)](https://badge.fury.io/py/pytest-meilisearch)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pytest-meilisearch?color=5cc141)](https://github.com/sanders41/pytest-meilisearch)
 
+⚠️This project has been archived and is no longer supported
+
 pytest helpers for testing Python projects using Meilisearch.
 
 ## Installation
@@ -46,7 +48,6 @@ Note that to use any of the async options you also need to install an async test
 ## Examples
 
 - Testing that your function that adds documents to an index is successful:
-
   - async:
 
     ```py
@@ -78,7 +79,6 @@ Note that to use any of the async options you also need to install an async test
     ```
 
 - Testing that your search is successful:
-
   - async:
 
     ```py
